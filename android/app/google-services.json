@@ -1,37 +1,38 @@
 {
   "project_info": {
-    "project_number": "37757804422",
-    "project_id": "gdsc-hackathon-d9cbf",
-    "storage_bucket": "gdsc-hackathon-d9cbf.appspot.com"
+    "project_number": "986133920681",
+    "firebase_url": "https://gdsc-hacks-default-rtdb.firebaseio.com",
+    "project_id": "gdsc-hacks",
+    "storage_bucket": "gdsc-hacks.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:37757804422:android:f6476b67021b323033d607",
+        "mobilesdk_app_id": "1:986133920681:android:ebc6141645725ddd6aa2b8",
         "android_client_info": {
           "package_name": "com.team.b"
         }
       },
       "oauth_client": [
         {
-          "client_id": "37757804422-bn2m4gip77nhbutj8sn3t1a4nlsuboe7.apps.googleusercontent.com",
+          "client_id": "986133920681-pia8omifrkt6dlm7os4pfdbkbhtu3a9c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBJAnCyhgFOzX_6FDmRXrGi5M3_G2ry6is"
+          "current_key": "AIzaSyBTJIUQjTkl-lUIZuDXaVR7YdUIkK1Txo0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "37757804422-bn2m4gip77nhbutj8sn3t1a4nlsuboe7.apps.googleusercontent.com",
+              "client_id": "986133920681-pia8omifrkt6dlm7os4pfdbkbhtu3a9c.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "37757804422-89k1dntl6aikdabem9ma9tlm9bedf5et.apps.googleusercontent.com",
+              "client_id": "986133920681-m1jrcoaqbo7mnh73afkee85a43i1q2pm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.team.b"

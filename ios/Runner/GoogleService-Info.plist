@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>37757804422-89k1dntl6aikdabem9ma9tlm9bedf5et.apps.googleusercontent.com</string>
+	<string>986133920681-m1jrcoaqbo7mnh73afkee85a43i1q2pm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.37757804422-89k1dntl6aikdabem9ma9tlm9bedf5et</string>
+	<string>com.googleusercontent.apps.986133920681-m1jrcoaqbo7mnh73afkee85a43i1q2pm</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCOJ6aE1iVyYsYJCCFfqJLQwIZATS3Chfo</string>
+	<string>AIzaSyDFiUDvexOYzgeD8YULP2I7X0UJel4ShxE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>37757804422</string>
+	<string>986133920681</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.team.b</string>
 	<key>PROJECT_ID</key>
-	<string>gdsc-hackathon-d9cbf</string>
+	<string>gdsc-hacks</string>
 	<key>STORAGE_BUCKET</key>
-	<string>gdsc-hackathon-d9cbf.appspot.com</string>
+	<string>gdsc-hacks.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:37757804422:ios:04ecbef11633e30033d607</string>
+	<string>1:986133920681:ios:d76be0c5d11a6b0c6aa2b8</string>
+	<key>DATABASE_URL</key>
+	<string>https://gdsc-hacks-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
+import 'dart:io' as io;
 import 'globals.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Upload extends StatefulWidget {
   const Upload({Key? key}) : super(key: key);
@@ -13,6 +19,7 @@ class _UploadState extends State<Upload> {
   String picture = Globals.defaultPic;
   String SE = Globals.se;
   String category = '';
+  String? imageFile;
 
   // late String productName, productDesc, price;
   final productNameCtrl = TextEditingController();
@@ -31,17 +38,22 @@ class _UploadState extends State<Upload> {
     "Salary"
   ];
 
-  File _imageFile;
-
-  Future uploadImageToFirebase(BuildContext context) async {
-    String fileName = basename(_imageFile.path);
-    StorageReference firebaseStorageRef =
-    FirebaseStorage.instance.ref().child('uploads/$fileName');
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    taskSnapshot.ref.getDownloadURL().then(
-          (value) => print("Done: $value"),
+  _getFromGallery() async {
+    XFile? pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
     );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = pickedFile.path;
+      });
+    }
+  }
+
+  Future<void> _uploadFirebase(){
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final bytes = io.File(imageFile!).readAsBytesSync();
+    String base64Image = base64Encode(bytes);
+    return
   }
 
   @override
@@ -142,21 +154,52 @@ class _UploadState extends State<Upload> {
                 ),
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                  width: kIsWeb
-                      ? MediaQuery.of(context).size.width / 2
-                      : MediaQuery.of(context).size.width,
-                  child: MaterialButton(
-                    color: Colors.blue,
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    child: const Padding(
-                        padding: EdgeInsets.all(15), child: Text('Submit')),
-                    onPressed: () {},
+            imageFile != null
+                ? (kIsWeb
+                    ? Image.network(imageFile!, fit: BoxFit.cover)
+                    : Image.file(
+                        io.File(imageFile!),
+                        fit: BoxFit.cover,
+                      ))
+                : Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SizedBox(
+                      width: kIsWeb
+                          ? MediaQuery.of(context).size.width / 2
+                          : MediaQuery.of(context).size.width,
+                      child: MaterialButton(
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        child: const Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Text('Add Image')),
+                        onPressed: () {
+                          _getFromGallery();
+                        },
+                      ),
+                    ),
                   ),
-                ))
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: SizedBox(
+                width: kIsWeb
+                    ? MediaQuery.of(context).size.width / 2
+                    : MediaQuery.of(context).size.width,
+                child: MaterialButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  child: const Padding(
+                      padding: EdgeInsets.all(15), child: Text('Submit')),
+                  onPressed: () {
+
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),

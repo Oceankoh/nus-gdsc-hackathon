@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gdsc_hackathon/edit.dart';
 import 'package:gdsc_hackathon/upload.dart';
 
 import 'globals.dart';
@@ -93,26 +94,36 @@ class _MyHomePageState extends State<MyHomePage> {
                   alignment: Alignment.center,
                   child: Card(
                     elevation: 2,
-                    child: SizedBox(
-                      width: kIsWeb
-                          ? MediaQuery.of(context).size.width / 2
-                          : MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          children: [
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 2),
-                                child: Text("Product Name: " +
-                                    (doc.data()! as Map)['name'])),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 2),
-                              child: Text("Product Description:"),
-                            ),
-                            Text(cut),
-                          ],
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return EditPage(data: doc.data());
+                          }),
+                        );
+                      },
+                      child: SizedBox(
+                        width: kIsWeb
+                            ? MediaQuery.of(context).size.width / 2
+                            : MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            children: [
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 2),
+                                  child: Text("Product Name: " +
+                                      (doc.data()! as Map)['name'])),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 2),
+                                child: Text("Product Description:"),
+                              ),
+                              Text(cut),
+                            ],
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                          ),
                         ),
                       ),
                     ),

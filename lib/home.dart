@@ -88,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return ListView(
               padding: const EdgeInsets.all(5),
               children: snapshot.data!.docs.map((doc) {
+                var index = snapshot.data!.docs.indexOf(doc);
                 String desc = (doc.data()! as Map)['desc'];
                 String cut = desc.substring(0, min(desc.length, 100)) + '...';
                 return Align(

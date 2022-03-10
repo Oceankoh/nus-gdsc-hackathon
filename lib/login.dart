@@ -26,6 +26,7 @@ class _LoginState extends State<LoginPage> {
   }
 
   _login() async {
+    print(MediaQuery.of(context).size.width);
     await FirebaseFirestore.instance
         .collectionGroup('enterprises')
         .where("name", isEqualTo: userCtrl.text)
@@ -53,7 +54,7 @@ class _LoginState extends State<LoginPage> {
               padding: const EdgeInsets.all(10),
               child: SizedBox(
                 width: kIsWeb
-                    ? MediaQuery.of(context).size.width / 3
+                    ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                     : MediaQuery.of(context).size.width,
                 child: TextField(
                   controller: userCtrl,
@@ -66,7 +67,7 @@ class _LoginState extends State<LoginPage> {
               padding: const EdgeInsets.all(10),
               child: SizedBox(
                 width: kIsWeb
-                    ? MediaQuery.of(context).size.width / 3
+                    ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                     : MediaQuery.of(context).size.width,
                 child: TextField(
                   controller: pwdCtrl,
@@ -79,7 +80,7 @@ class _LoginState extends State<LoginPage> {
               padding: const EdgeInsets.all(10),
               child: SizedBox(
                 width: kIsWeb
-                    ? MediaQuery.of(context).size.width / 3
+                    ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                     : MediaQuery.of(context).size.width,
                 child: MaterialButton(
                   color: Colors.blue,

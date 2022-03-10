@@ -40,7 +40,7 @@ class _EditState extends State<EditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add new Product"),
+        title: const Text("View Product"),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -49,12 +49,13 @@ class _EditState extends State<EditPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const SizedBox(height: 20),
                 Image.memory(base64Decode(widget.data['picture'])),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextField(
                       enabled: false,
@@ -68,7 +69,7 @@ class _EditState extends State<EditPage> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextField(
                       enabled: false,
@@ -82,7 +83,7 @@ class _EditState extends State<EditPage> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextFormField(
                       enabled: false,
@@ -98,7 +99,7 @@ class _EditState extends State<EditPage> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextField(
                       enabled: false,
@@ -112,7 +113,7 @@ class _EditState extends State<EditPage> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: MaterialButton(
                       color: Colors.red,

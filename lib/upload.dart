@@ -114,11 +114,12 @@ class _UploadState extends State<Upload> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextField(
                       controller: productNameCtrl,
@@ -132,7 +133,7 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: FormField<String>(
                       builder: (FormFieldState<String> state) {
@@ -169,7 +170,7 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextFormField(
                       keyboardType: TextInputType.multiline,
@@ -186,7 +187,7 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextField(
                       controller: priceCtrl,
@@ -203,7 +204,7 @@ class _UploadState extends State<Upload> {
                         padding: const EdgeInsets.all(10),
                         child: SizedBox(
                           width: kIsWeb
-                              ? MediaQuery.of(context).size.width / 2
+                              ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                               : MediaQuery.of(context).size.width,
                           child: MaterialButton(
                             color: Colors.blue,
@@ -223,7 +224,7 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? MediaQuery.of(context).size.width / 2
+                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: MaterialButton(
                       color: Colors.blue,

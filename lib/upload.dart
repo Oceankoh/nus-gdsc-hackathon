@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' as io;
+import 'dart:html';
 import 'globals.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +20,7 @@ class _UploadState extends State<Upload> {
   String picture = Globals.defaultPic;
   String SE = Globals.se;
   String category = '';
-  String? imageFile;
+  XFile? imageFile;
 
   // late String productName, productDesc, price;
   final productNameCtrl = TextEditingController();
@@ -41,19 +42,55 @@ class _UploadState extends State<Upload> {
   _getFromGallery() async {
     XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
+      maxHeight: 480,
+      maxWidth: 640,
     );
     if (pickedFile != null) {
       setState(() {
-        imageFile = pickedFile.path;
+        imageFile = pickedFile;
       });
     }
   }
 
-  Future<void> _uploadFirebase(){
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    final bytes = io.File(imageFile!).readAsBytesSync();
-    String base64Image = base64Encode(bytes);
-    return
+  String? _uploadFirebase() {
+    CollectionReference products =
+        FirebaseFirestore.instance.collection('products');
+    if (kIsWeb) {
+      imageFile!.readAsBytes().then((value) {
+        String base64Image = base64Encode(value);
+        if (base64Image.length < 50) base64Image = Globals.defaultPic;
+        if (category.isEmpty) return 'Enter Category';
+        if (productNameCtrl.text.isEmpty) return 'Enter Name';
+        if (productDescCtrl.text.isEmpty) return 'Enter Description';
+        if (priceCtrl.text.isEmpty) return 'Enter Price';
+        products.add({
+          "category": category,
+          "desc": productDescCtrl.text,
+          "id": DateTime.now().microsecondsSinceEpoch,
+          "name": productNameCtrl.text,
+          "picture": base64Image,
+          "price": priceCtrl.text,
+          "se": SE
+        });
+      });
+    } else {
+      final bytes = io.File(imageFile!.path).readAsBytesSync();
+      String base64Image = base64Encode(bytes);
+      if (base64Image.length < 50) base64Image = Globals.defaultPic;
+      if (category.isEmpty) return 'Enter Category';
+      if (productNameCtrl.text.isEmpty) return 'Enter Name';
+      if (productDescCtrl.text.isEmpty) return 'Enter Description';
+      if (priceCtrl.text.isEmpty) return 'Enter Price';
+      products.add({
+        "category": category,
+        "desc": productDescCtrl.text,
+        "id": DateTime.now().microsecondsSinceEpoch,
+        "name": productNameCtrl.text,
+        "picture": base64Image,
+        "price": priceCtrl.text,
+        "se": SE
+      });
+    }
   }
 
   @override
@@ -69,7 +106,7 @@ class _UploadState extends State<Upload> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upload"),
+        title: const Text("Add new Product"),
       ),
       body: Center(
         child: Column(
@@ -156,11 +193,8 @@ class _UploadState extends State<Upload> {
             ),
             imageFile != null
                 ? (kIsWeb
-                    ? Image.network(imageFile!, fit: BoxFit.cover)
-                    : Image.file(
-                        io.File(imageFile!),
-                        fit: BoxFit.cover,
-                      ))
+                    ? Image.network(imageFile!.path)
+                    : Image.file(io.File(imageFile!.path)))
                 : Padding(
                     padding: const EdgeInsets.all(10),
                     child: SizedBox(
@@ -195,7 +229,7 @@ class _UploadState extends State<Upload> {
                   child: const Padding(
                       padding: EdgeInsets.all(15), child: Text('Submit')),
                   onPressed: () {
-
+                    if (_uploadFirebase() == null) Navigator.pop(context);
                   },
                 ),
               ),

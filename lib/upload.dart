@@ -54,6 +54,7 @@ class _UploadState extends State<Upload> {
 
   Future<String> uploadImageFile(dynamic image,
       {required String imageName}) async {
+    print(imageName);
     Reference _reference =
         firebase_storage.FirebaseStorage.instance.ref('images/$imageName');
     if (kIsWeb) {
@@ -70,17 +71,16 @@ class _UploadState extends State<Upload> {
     CollectionReference products =
         FirebaseFirestore.instance.collection('products');
     if (kIsWeb) {
-      imageFile!.readAsBytes().then((value) async {
+      await imageFile!.readAsBytes().then((value) async {
         // String base64Image = base64Encode(value);
         // if (base64Image.length < 50) base64Image = Globals.defaultPic;
         String url = await uploadImageFile(value,
-            imageName: DateTime.now().microsecondsSinceEpoch.toString());
-        print(url);
+            imageName: DateTime.now().microsecondsSinceEpoch.toString()+'.jpg');
         if (category.isEmpty) return 'Enter Category';
         if (productNameCtrl.text.isEmpty) return 'Enter Name';
         if (productDescCtrl.text.isEmpty) return 'Enter Description';
         if (priceCtrl.text.isEmpty) return 'Enter Price';
-        products.add({
+        await products.add({
           "category": category,
           "desc": productDescCtrl.text,
           "id": DateTime.now().microsecondsSinceEpoch,
@@ -92,7 +92,7 @@ class _UploadState extends State<Upload> {
       });
     } else {
       String url = await uploadImageFile(io.File(imageFile!.path),
-          imageName: DateTime.now().microsecondsSinceEpoch.toString());
+          imageName: DateTime.now().microsecondsSinceEpoch.toString()+'.jpg');
       // final bytes = io.File(imageFile!.path).readAsBytesSync();
       // String base64Image = base64Encode(bytes);
       // if (base64Image.length < 50) base64Image = Globals.defaultPic;
@@ -100,7 +100,7 @@ class _UploadState extends State<Upload> {
       if (productNameCtrl.text.isEmpty) return 'Enter Name';
       if (productDescCtrl.text.isEmpty) return 'Enter Description';
       if (priceCtrl.text.isEmpty) return 'Enter Price';
-      products.add({
+      await products.add({
         "category": category,
         "desc": productDescCtrl.text,
         "id": DateTime.now().microsecondsSinceEpoch,
@@ -110,6 +110,7 @@ class _UploadState extends State<Upload> {
         "se": SE
       });
     }
+    return 'success';
   }
 
   @override
@@ -265,8 +266,8 @@ class _UploadState extends State<Upload> {
                           borderRadius: BorderRadius.circular(5)),
                       child: const Padding(
                           padding: EdgeInsets.all(15), child: Text('Submit')),
-                      onPressed: () {
-                        if (_uploadFirebase() == null) Navigator.pop(context);
+                      onPressed: () async {
+                        if (await _uploadFirebase() == 'success') Navigator.pop(context);
                       },
                     ),
                   ),

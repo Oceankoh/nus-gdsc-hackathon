@@ -20,7 +20,6 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditState extends State<EditPage> {
-  String picture = Globals.defaultPic;
   String SE = Globals.se;
   String category = '';
 
@@ -50,7 +49,7 @@ class _EditState extends State<EditPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(height: 20),
-                Image.memory(base64Decode(widget.data['picture'])),
+                Image.network(widget.data['picture']),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(

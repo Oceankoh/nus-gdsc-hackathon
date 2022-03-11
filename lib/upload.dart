@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' as io;
 import 'dart:html';
 import 'globals.dart';
-
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Upload extends StatefulWidget {
@@ -51,13 +52,30 @@ class _UploadState extends State<Upload> {
     }
   }
 
-  String? _uploadFirebase() {
+  Future<String> uploadImageFile(dynamic image,
+      {required String imageName}) async {
+    Reference _reference =
+        firebase_storage.FirebaseStorage.instance.ref('images/$imageName');
+    if (kIsWeb) {
+      await _reference.putData(
+          image, SettableMetadata(contentType: 'image/jpeg'));
+    } else {
+      await _reference.putFile(image);
+    }
+    String url = await _reference.getDownloadURL();
+    return url;
+  }
+
+  Future<String?> _uploadFirebase() async {
     CollectionReference products =
         FirebaseFirestore.instance.collection('products');
     if (kIsWeb) {
-      imageFile!.readAsBytes().then((value) {
-        String base64Image = base64Encode(value);
-        if (base64Image.length < 50) base64Image = Globals.defaultPic;
+      imageFile!.readAsBytes().then((value) async {
+        // String base64Image = base64Encode(value);
+        // if (base64Image.length < 50) base64Image = Globals.defaultPic;
+        String url = await uploadImageFile(value,
+            imageName: DateTime.now().microsecondsSinceEpoch.toString());
+        print(url);
         if (category.isEmpty) return 'Enter Category';
         if (productNameCtrl.text.isEmpty) return 'Enter Name';
         if (productDescCtrl.text.isEmpty) return 'Enter Description';
@@ -67,15 +85,17 @@ class _UploadState extends State<Upload> {
           "desc": productDescCtrl.text,
           "id": DateTime.now().microsecondsSinceEpoch,
           "name": productNameCtrl.text,
-          "picture": base64Image,
+          "picture": url,
           "price": priceCtrl.text,
           "se": SE
         });
       });
     } else {
-      final bytes = io.File(imageFile!.path).readAsBytesSync();
-      String base64Image = base64Encode(bytes);
-      if (base64Image.length < 50) base64Image = Globals.defaultPic;
+      String url = await uploadImageFile(io.File(imageFile!.path),
+          imageName: DateTime.now().microsecondsSinceEpoch.toString());
+      // final bytes = io.File(imageFile!.path).readAsBytesSync();
+      // String base64Image = base64Encode(bytes);
+      // if (base64Image.length < 50) base64Image = Globals.defaultPic;
       if (category.isEmpty) return 'Enter Category';
       if (productNameCtrl.text.isEmpty) return 'Enter Name';
       if (productDescCtrl.text.isEmpty) return 'Enter Description';
@@ -85,7 +105,7 @@ class _UploadState extends State<Upload> {
         "desc": productDescCtrl.text,
         "id": DateTime.now().microsecondsSinceEpoch,
         "name": productNameCtrl.text,
-        "picture": base64Image,
+        "picture": url,
         "price": priceCtrl.text,
         "se": SE
       });
@@ -119,7 +139,9 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
+                        ? (MediaQuery.of(context).size.width < 1100
+                            ? MediaQuery.of(context).size.width * 0.8
+                            : MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextField(
                       controller: productNameCtrl,
@@ -133,7 +155,9 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
+                        ? (MediaQuery.of(context).size.width < 1100
+                            ? MediaQuery.of(context).size.width * 0.8
+                            : MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: FormField<String>(
                       builder: (FormFieldState<String> state) {
@@ -170,7 +194,9 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
+                        ? (MediaQuery.of(context).size.width < 1100
+                            ? MediaQuery.of(context).size.width * 0.8
+                            : MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextFormField(
                       keyboardType: TextInputType.multiline,
@@ -187,7 +213,9 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
+                        ? (MediaQuery.of(context).size.width < 1100
+                            ? MediaQuery.of(context).size.width * 0.8
+                            : MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: TextField(
                       controller: priceCtrl,
@@ -204,7 +232,9 @@ class _UploadState extends State<Upload> {
                         padding: const EdgeInsets.all(10),
                         child: SizedBox(
                           width: kIsWeb
-                              ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
+                              ? (MediaQuery.of(context).size.width < 1100
+                                  ? MediaQuery.of(context).size.width * 0.8
+                                  : MediaQuery.of(context).size.width * 0.5)
                               : MediaQuery.of(context).size.width,
                           child: MaterialButton(
                             color: Colors.blue,
@@ -224,7 +254,9 @@ class _UploadState extends State<Upload> {
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     width: kIsWeb
-                        ? (MediaQuery.of(context).size.width < 1100 ? MediaQuery.of(context).size.width * 0.8: MediaQuery.of(context).size.width * 0.5)
+                        ? (MediaQuery.of(context).size.width < 1100
+                            ? MediaQuery.of(context).size.width * 0.8
+                            : MediaQuery.of(context).size.width * 0.5)
                         : MediaQuery.of(context).size.width,
                     child: MaterialButton(
                       color: Colors.blue,
